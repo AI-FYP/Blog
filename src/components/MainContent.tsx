@@ -27,7 +27,7 @@ interface MainContentProps {
             description: string;
             date: string;
             url: string;
-            authors: { name: string; avatar: string; url: string }[];
+            authors: { name: string; avatar: string|null; url: string }[];
         }[];
     };
     searchQuery: string;
@@ -70,7 +70,7 @@ const StyledTypography = styled(Typography)({
     textOverflow: 'ellipsis',
 });
 
-function AuthorAndDate({ authors, date }: { authors: { name: string; avatar: string }[], date: string }) {
+function AuthorAndDate({ authors, date }: { authors: { name: string; avatar: string | null }[], date: string }) {
     return (
         <Box
             sx={{
@@ -84,11 +84,11 @@ function AuthorAndDate({ authors, date }: { authors: { name: string; avatar: str
         >
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
                 <AvatarGroup max={3}>
-                    {authors.map((AuthorAndDate, index) => (
-                        <Avatar key={index} alt={AuthorAndDate.name} src={AuthorAndDate.avatar} sx={{ width: 24, height: 24 }} />
+                    {authors.map((author, index) => (
+                        <Avatar key={index} alt={author.name} src={author.avatar ?? ''} sx={{ width: 24, height: 24 }} />
                     ))}
                 </AvatarGroup>
-                <Typography variant="caption">{authors.map((AuthorAndDate) => AuthorAndDate.name).join(', ')}</Typography>
+                <Typography variant="caption">{authors.map((author) => author.name).join(', ')}</Typography>
             </Box>
             <Typography variant="caption">{date}</Typography>
         </Box>
