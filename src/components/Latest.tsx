@@ -57,7 +57,7 @@ interface Post {
     url: string;
 }
 
-const POSTS_PER_PAGE = 2;
+const POSTS_PER_PAGE = 6;
 
 export default function Latest({ searchQuery }: { searchQuery: string }) {
     // const [posts, setPosts] = useState<Post[]>([]);
