@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
 
-import axios from 'axios';
+import latest_posts from '../dist/latest.json';
 
 const TitleTypography = styled(Typography)(() => ({
   position: 'relative',
@@ -32,10 +32,7 @@ const TitleTypography = styled(Typography)(() => ({
 }));
 
 function Author({ authors }: { authors?: { name: string; avatar: string }[] }) {
-    if (!authors || authors.length === 0) return null; // If authors is undefined or empty, don't render anything
-    if (typeof authors === 'string') {
-        authors = [authors];
-    }
+    if (!authors || authors.length === 0) return null;
 
     return (
       <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, alignItems: 'center' }}>
@@ -60,36 +57,33 @@ interface Post {
     url: string;
 }
 
-  
+const POSTS_PER_PAGE = 2;
+
 export default function Latest({ searchQuery }: { searchQuery: string }) {
     const router = useRouter();
-    const [posts, setPosts] = useState<Post[]>([]);
+    // const [posts, setPosts] = useState<Post[]>([]);
+    const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
     const [totalPages, setTotalPages] = useState(1);
     const [page, setPage] = useState(1);
 
-    // Fetch posts from the API
-    const fetchPosts = async (page: number, searchQuery: string) => {
-        try {
-            const response = await axios.get(`/api/latest`, { params: { page, searchQuery } });
-            setPosts(response.data.posts as Post[]);
-            setTotalPages(response.data.totalPages);
-        } catch (error) {
-            console.error('Error fetching latest posts:', error);
-        }
-    };
+    const posts = latest_posts;
 
-    // Fetch posts when page or searchQuery changes
+    // Filter and paginate posts based on search query and page number
     useEffect(() => {
-        fetchPosts(page, searchQuery);  // Refetch posts on page or searchQuery change
-    }, [page, searchQuery]);  // Add searchQuery as a dependency to trigger fetch on change
+        // Apply search filtering
+        const filtered = posts.filter(
+            (post) =>
+                post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (post.description && post.description.toLowerCase().includes(searchQuery.toLowerCase()))
+        );
 
-    // Filter posts by searchQuery (optional if you want client-side filtering)
-    const filteredPosts = posts.filter((post) =>
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (post.description && post.description.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
+        // Paginate the filtered posts
+        const paginatedPosts = filtered.slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE);
+        setFilteredPosts(paginatedPosts);
+        setTotalPages(Math.ceil(filtered.length / POSTS_PER_PAGE));
+    }, [posts, searchQuery, page]);
 
-    // Pagination change
+    // Handle pagination
     const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
     };
@@ -122,7 +116,7 @@ export default function Latest({ searchQuery }: { searchQuery: string }) {
                         </Grid>
                     ))
                 ) : (
-                    <Typography>No posts found for &quote;{searchQuery}&quote;.</Typography>
+                    <Typography>No posts found for "{searchQuery}".</Typography>
                 )}
             </Grid>
             {totalPages > 1 && (

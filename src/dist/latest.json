@@ -1,0 +1,76 @@
+[
+  {
+    "title": "Welcome to ALIF",
+    "date": "2024-09-10",
+    "authors": [
+      {
+        "name": "Abdullah Ahmad",
+        "avatar": "/assets/images/avatar/john-doe.jpg"
+      }
+    ],
+    "tags": [
+      "Introduction",
+      "Welcome"
+    ],
+    "description": "Welcome to the new blog! We are excited to share updates and stories with you.",
+    "slug": "welcome-to-alif",
+    "url": "/welcome-to-alif"
+  },
+  {
+    "title": "Test Post Two",
+    "date": "2024-09-09",
+    "authors": [
+      {
+        "name": "Abdullah Ahmad",
+        "avatar": "/assets/images/avatar/john-doe.jpg"
+      }
+    ],
+    "tags": [
+      "Introduction",
+      "Welcome"
+    ],
+    "description": "Welcome to the new blog! We are excited to share updates and stories with you.",
+    "slug": "test-post-2",
+    "url": "/test-post-2"
+  },
+  {
+    "title": "Test Post Three",
+    "date": "2024-09-09",
+    "authors": [
+      {
+        "name": "Abdullah Ahmad",
+        "avatar": "/assets/images/avatar/john-doe.jpg"
+      }
+    ],
+    "tags": [
+      "Introduction",
+      "Welcome"
+    ],
+    "description": "Welcome to the new blog! We are excited to share updates and stories with you.",
+    "slug": "test-post-3",
+    "url": "/test-post-3"
+  },
+  {
+    "title": "Test Post",
+    "date": "2024-09-09",
+    "authors": [
+      {
+        "name": "Abdullah Ahmad",
+        "avatar": "/assets/images/avatar/john-doe.jpg"
+      }
+    ],
+    "tags": [
+      "Introduction",
+      "Welcome"
+    ],
+    "description": "Welcome to the new blog! We are excited to share updates and stories with you.",
+    "slug": "test-post",
+    "url": "/test-post"
+  },
+  {
+    "title": "Product Introduction",
+    "date": "2023-09-10",
+    "slug": "product-introduction",
+    "url": "/product-introduction"
+  }
+]
