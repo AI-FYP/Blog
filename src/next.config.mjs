@@ -5,6 +5,8 @@ import fs from 'fs';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  basePath: '/Blog',
+  assetPrefix: '/Blog/',
   output: 'export',
   distDir: '../out',
   webpack: (config, { isServer }) => {
