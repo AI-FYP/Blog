@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useRouter } from 'next/router';
+
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Box from '@mui/material/Box';
@@ -117,6 +119,8 @@ export function Search({ setSearchQuery }: { setSearchQuery?: (query: string) =>
 
 export default function MainContent({ data, searchQuery, setSearchQuery }: MainContentProps) {
 
+    const router = useRouter();
+
     const filteredPosts = data.posts.filter((post) =>
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -126,9 +130,9 @@ export default function MainContent({ data, searchQuery, setSearchQuery }: MainC
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             <div>
                 <Typography variant="h1" gutterBottom>
-                    Blog
+                    ALIF Blog
                 </Typography>
-                <Typography>Stay in the loop with the latest about our products</Typography>
+                <Typography>Stay in the loop with the latest about ALIF.</Typography>
             </div>
             <Box
                 sx={{
@@ -156,7 +160,7 @@ export default function MainContent({ data, searchQuery, setSearchQuery }: MainC
                     {data.tags.map((tag, index) => (
                         <Chip
                             key={index}
-                            onClick={() => window.location.href = tag.url}
+                            onClick={() => router.push(tag.url)}
                             size="medium"
                             label={tag.name}
                         />

@@ -11,7 +11,7 @@ interface Post {
   url: string;
 }
 
-const POSTS_PER_PAGE = 2;
+const POSTS_PER_PAGE = 8;
 
 const is_next_root = fs.existsSync(path.join(process.cwd(), 'md/post'));
 
