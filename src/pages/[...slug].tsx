@@ -1,25 +1,15 @@
 import matter from 'gray-matter';
-import ReactMarkdown from 'react-markdown';
-
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { Container, Typography, Box } from '@mui/material';
+import Post from '../components/Post';
 
-import PageLayout from '../layouts/PageLayout';
-
-
-interface PostProps {
+interface PostPageProps {
+  title: string;
   content: string;
+  tags?: string[];
 }
 
-const Post: React.FC<PostProps> = ({ content }) => {
-  return (
-    <PageLayout>
-      <Typography variant="h4" gutterBottom>
-        Blog Post
-      </Typography>
-      <ReactMarkdown>{content}</ReactMarkdown>
-    </PageLayout>
-  );
+const PostPage: React.FC<PostPageProps> = ({ title, content, tags }) => {
+  return <Post title={title} content={content} tags={tags} />;
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -35,13 +25,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const fs = (await import('fs')).default;
   const path = (await import('path')).default;
+
   const slug = params?.slug ? (params.slug as string[]).join('/') : 'index';
   const filePath = path.join(process.cwd(), 'md', `${slug}.md`);
   const fileContents = fs.readFileSync(filePath, 'utf8');
-  const { content } = matter(fileContents);
-
-  return { props: { content } };
+  
+  const { content, data } = matter(fileContents);
+  return { props: { title: data.title, content, tags: data.tags || [] } };
 };
 
 
-export default Post;
+export default PostPage;

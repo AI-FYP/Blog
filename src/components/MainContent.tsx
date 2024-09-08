@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Box from '@mui/material/Box';
@@ -7,14 +8,13 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid2';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { styled } from '@mui/material/styles';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import RssFeedRoundedIcon from '@mui/icons-material/RssFeedRounded';
+
 
 interface MainContentProps {
     data: {
@@ -29,6 +29,8 @@ interface MainContentProps {
             authors: { name: string; avatar: string; url: string }[];
         }[];
     };
+    searchQuery: string;
+    setSearchQuery: (query: string) => void;
 }
 
 const SyledCard = styled(Card)(({ theme }) => ({
@@ -92,41 +94,34 @@ function AuthorAndDate({ authors, date }: { authors: { name: string; avatar: str
     );
 }
 
-export function Search() {
+export function Search({ setSearchQuery }: { setSearchQuery?: (query: string) => void }) {
     return (
         <FormControl sx={{ width: { xs: '100%', md: '25ch' } }} variant="outlined">
-        <OutlinedInput
-            size="small"
-            id="search"
-            placeholder="Search…"
-            sx={{ flexGrow: 1 }}
-            startAdornment={
-            <InputAdornment position="start" sx={{ color: 'text.primary' }}>
-                <SearchRoundedIcon fontSize="small" />
-            </InputAdornment>
-            }
-            inputProps={{
-                'aria-label': 'search',
-            }}
-        />
+            <OutlinedInput
+                size="small"
+                id="search"
+                placeholder="Search…"
+                sx={{ flexGrow: 1 }}
+                startAdornment={
+                    <InputAdornment position="start" sx={{ color: 'text.primary' }}>
+                        <SearchRoundedIcon fontSize="small" />
+                    </InputAdornment>
+                }
+                inputProps={{
+                    'aria-label': 'search',
+                }}
+                onChange={(e) => setSearchQuery && setSearchQuery(e.target.value)}
+            />
         </FormControl>
     );
 }
 
-export default function MainContent({ data }: MainContentProps) {
-    const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(null);
+export default function MainContent({ data, searchQuery, setSearchQuery }: MainContentProps) {
 
-    const handleFocus = (index: number) => {
-        setFocusedCardIndex(index);
-    };
-
-    const handleBlur = () => {
-        setFocusedCardIndex(null);
-    };
-
-    const handleClick = () => {
-        console.info('You clicked the filter chip.');
-    };
+    const filteredPosts = data.posts.filter((post: any) =>
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -145,10 +140,7 @@ export default function MainContent({ data }: MainContentProps) {
                 overflow: 'auto',
                 }}
             >
-                <Search />
-                <IconButton size="small" aria-label="RSS feed">
-                    <RssFeedRoundedIcon />
-                </IconButton>
+                <Search setSearchQuery={setSearchQuery} />
             </Box>
             <Box
                 sx={{
@@ -164,47 +156,48 @@ export default function MainContent({ data }: MainContentProps) {
                 <Box sx={{ display: 'inline-flex', flexDirection: 'row', gap: 3, overflow: 'auto' }}>
                     {data.tags.map((tag, index) => (
                         <Chip
-                        key={index}
-                        onClick={() => window.location.href = tag.url} // Navigate to tag's URL
-                        size="medium"
-                        label={tag.name}
+                            key={index}
+                            onClick={() => window.location.href = tag.url}
+                            size="medium"
+                            label={tag.name}
                         />
                     ))}
                 </Box>
                 <Box
-                sx={{
-                    display: { xs: 'none', sm: 'flex' },
-                    flexDirection: 'row',
-                    gap: 1,
-                    width: { xs: '100%', md: 'fit-content' },
-                    overflow: 'auto',
-                }}
+                    sx={{
+                        display: { xs: 'none', sm: 'flex' },
+                        flexDirection: 'row',
+                        gap: 1,
+                        width: { xs: '100%', md: 'fit-content' },
+                        overflow: 'auto',
+                    }}
                 >
-                <Search />
-                <IconButton size="small" aria-label="RSS feed">
-                    <RssFeedRoundedIcon />
-                </IconButton>
+                    <Search setSearchQuery={setSearchQuery} />
                 </Box>
             </Box>
-            <Grid container spacing={2} columns={12}>
-                {data.posts.map((post, index) => (
-                    <Grid key={index} size={{ xs: 12, md: 6 }}>
-                        <SyledCard
-                            variant="outlined"
-                            onClick={() => window.location.href = post.url} // Navigate to post's URL
-                            tabIndex={0}
-                        >
-                            <CardMedia component="img" alt={post.title} image={post.img} sx={{ borderBottom: '1px solid', borderColor: 'divider' }} />
-                            <SyledCardContent>
-                                <Typography gutterBottom variant="caption">{post.tag}</Typography>
-                                <Typography gutterBottom variant="h6">{post.title}</Typography>
-                                <StyledTypography variant="body2" color="text.secondary" gutterBottom>{post.description}</StyledTypography>
-                            </SyledCardContent>
-                            <AuthorAndDate authors={post.authors} date={post.date} />
-                        </SyledCard>
-                    </Grid>
-                ))}
-            </Grid>
+
+            {filteredPosts.length > 0 && (
+                <Grid container spacing={2} columns={12}>
+                    {filteredPosts.map((post, index) => (
+                        <Grid key={index} size={{ xs: 12, md: 6 }}>
+                            <SyledCard
+                                variant="outlined"
+                                onClick={() => window.location.href = post.url} // Navigate to post's URL
+                                tabIndex={0}
+                            >
+                                <CardMedia component="img" alt={post.title} image={post.img} sx={{ borderBottom: '1px solid', borderColor: 'divider' }} />
+                                <SyledCardContent>
+                                    <Typography gutterBottom variant="caption">{post.tag}</Typography>
+                                    <Typography gutterBottom variant="h6">{post.title}</Typography>
+                                    <StyledTypography variant="body2" color="text.secondary" gutterBottom>{post.description}</StyledTypography>
+                                </SyledCardContent>
+                                <AuthorAndDate authors={post.authors} date={post.date} />
+                            </SyledCard>
+                        </Grid>
+                    ))}
+                </Grid>
+            )}
+            
         </Box>
     );
 }

@@ -1,5 +1,8 @@
 import * as React from 'react';
+import { useRouter } from 'next/router';
+
 import { alpha, styled } from '@mui/material/styles';
+
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,6 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+
+import GitHubIcon from '@mui/icons-material/GitHub';
 import Logo from '../components/Logo';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -30,6 +35,8 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 export default function ApplicationTopBar() {
   const [open, setOpen] = React.useState(false);
 
+  const router = useRouter();
+
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -44,23 +51,17 @@ export default function ApplicationTopBar() {
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0, gap: 2, mx: 1 }}>
             <Logo />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Button variant="text" color="info" size="small">
-                Features
+              <Button variant="text" color="info" size="small" onClick={() => router.push('/alif/overview')}>
+                Overview
               </Button>
-              <Button variant="text" color="info" size="small">
-                Testimonials
+              <Button variant="text" color="info" size="small" onClick={() => router.push('/news')}>
+                News
               </Button>
-              <Button variant="text" color="info" size="small">
-                Highlights
+              <Button variant="text" color="info" size="small" onClick={() => router.push('/team')}>
+                Team
               </Button>
-              <Button variant="text" color="info" size="small">
-                Pricing
-              </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
-                FAQ
-              </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
-                Blog
+              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }} onClick={() => router.push('/faqs')}>
+                FAQs
               </Button>
             </Box>
           </Box>
@@ -72,11 +73,11 @@ export default function ApplicationTopBar() {
               mx: 1,
             }}
           >
-            <Button color="primary" variant="text" size="small">
-              Sign in
+            <Button color="primary" variant="text" size="small" onClick={() => router.push('/contact')}>
+              Contact
             </Button>
-            <Button color="primary" variant="contained" size="small">
-              Sign up
+            <Button color="primary" variant="contained" size="small" href="https://github.com/AI-FYP/Blog" startIcon={<GitHubIcon />}>
+              GitHub
             </Button>
           </Box>
           <Box sx={{ display: { sm: 'flex', md: 'none' } }}>

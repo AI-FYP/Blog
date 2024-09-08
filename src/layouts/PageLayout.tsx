@@ -11,6 +11,13 @@ interface PageLayoutProps {
 }
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
+
+  React.useEffect(() => {
+    if(!document.title){
+      document.title = `ALIF Blog`;
+    }
+  }, []);
+
   const [mode, setMode] = React.useState<PaletteMode>('light');
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
 

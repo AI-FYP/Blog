@@ -1,25 +1,22 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import FacebookIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import TwitterIcon from '@mui/icons-material/X';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import Logo from '../components/Logo';
+
+import { useRouter } from 'next/router';
 
 function Copyright() {
   return (
     <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
       {'Copyright © '}
-      <Link color="text.secondary" href="https://mui.com/">
-        Sitemark
+      <Link color="text.secondary" href="https://github.com/AI-FYP">
+        AI-FYP
       </Link>
       &nbsp;
       {new Date().getFullYear()}
@@ -28,6 +25,8 @@ function Copyright() {
 }
 
 export default function Footer() {
+  const router = useRouter();
+
   return (
     <React.Fragment>
       <Divider />
@@ -59,43 +58,9 @@ export default function Footer() {
           >
             <Box sx={{ width: { xs: '100%', sm: '60%' } }}>
               <Logo />
-              <Typography
-                variant="body2"
-                gutterBottom
-                sx={{ fontWeight: 600, mt: 2 }}
-              >
-                Join the newsletter
-              </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
-                Subscribe for weekly updates. No spams ever!
+                Working together.
               </Typography>
-              <InputLabel htmlFor="email-newsletter">Email</InputLabel>
-              <Stack direction="row" spacing={1} useFlexGap>
-                <TextField
-                  id="email-newsletter"
-                  hiddenLabel
-                  size="small"
-                  variant="outlined"
-                  fullWidth
-                  aria-label="Enter your email address"
-                  placeholder="Your email address"
-                  slotProps={{
-                    htmlInput: {
-                      autoComplete: 'off',
-                      'aria-label': 'Enter your email address',
-                    },
-                  }}
-                  sx={{ width: '250px' }}
-                />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="small"
-                  sx={{ flexShrink: 0 }}
-                >
-                  Subscribe
-                </Button>
-              </Stack>
             </Box>
           </Box>
           <Box
@@ -106,21 +71,21 @@ export default function Footer() {
             }}
           >
             <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-              Product
+              ALIF
             </Typography>
-            <Link color="text.secondary" variant="body2" href="#">
+            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/alif/overview')}>
+              Overview
+            </Link>
+            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/alif/features')}>
               Features
             </Link>
-            <Link color="text.secondary" variant="body2" href="#">
-              Testimonials
+            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/ailf/demo')}>
+              Demo
             </Link>
-            <Link color="text.secondary" variant="body2" href="#">
-              Highlights
+            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/alif/news')}>
+              News
             </Link>
-            <Link color="text.secondary" variant="body2" href="#">
-              Pricing
-            </Link>
-            <Link color="text.secondary" variant="body2" href="#">
+            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/alif/faqs')}>
               FAQs
             </Link>
           </Box>
@@ -134,14 +99,11 @@ export default function Footer() {
             <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               Company
             </Typography>
-            <Link color="text.secondary" variant="body2" href="#">
+            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/about')}>
               About us
             </Link>
-            <Link color="text.secondary" variant="body2" href="#">
-              Careers
-            </Link>
-            <Link color="text.secondary" variant="body2" href="#">
-              Press
+            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/team')}>
+              Team
             </Link>
           </Box>
           <Box
@@ -154,13 +116,13 @@ export default function Footer() {
             <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               Legal
             </Typography>
-            <Link color="text.secondary" variant="body2" href="#">
+            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/terms')}>
               Terms
             </Link>
-            <Link color="text.secondary" variant="body2" href="#">
+            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/privacy-policy')}>
               Privacy
             </Link>
-            <Link color="text.secondary" variant="body2" href="#">
+            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/contact')}>
               Contact
             </Link>
           </Box>
@@ -196,29 +158,11 @@ export default function Footer() {
             <IconButton
               color="inherit"
               size="small"
-              href="https://github.com/mui"
+              href="https://github.com/AI-FYP/Blog"
               aria-label="GitHub"
               sx={{ alignSelf: 'center' }}
             >
-              <FacebookIcon />
-            </IconButton>
-            <IconButton
-              color="inherit"
-              size="small"
-              href="https://x.com/MaterialUI"
-              aria-label="X"
-              sx={{ alignSelf: 'center' }}
-            >
-              <TwitterIcon />
-            </IconButton>
-            <IconButton
-              color="inherit"
-              size="small"
-              href="https://www.linkedin.com/company/mui/"
-              aria-label="LinkedIn"
-              sx={{ alignSelf: 'center' }}
-            >
-              <LinkedInIcon />
+              <GitHubIcon />
             </IconButton>
           </Stack>
         </Box>
