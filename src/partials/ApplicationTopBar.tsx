@@ -1,9 +1,12 @@
+// 
+// Imports
+// 
+
 import * as React from 'react';
 import { useRouter } from 'next/router';
 
 import { alpha, styled } from '@mui/material/styles';
 import { PaletteMode } from '@mui/material/styles';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -13,13 +16,36 @@ import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import ModeNightRoundedIcon from '@mui/icons-material/ModeNightRounded';
-
 import GitHubIcon from '@mui/icons-material/GitHub';
+
 import Logo from '../components/Logo';
+import navigation from '../dist/navigation.json';
+
+
+// 
+// Data Types
+// 
+
+interface ToggleColorModeProps extends IconButtonProps {
+  mode: PaletteMode;
+  toggleColorMode: () => void;
+}
+
+interface ApplicationTopBarProps {
+  mode: PaletteMode;
+  toggleColorMode: () => void;
+}
+
+
+// 
+// Components
+// 
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -34,11 +60,6 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   boxShadow: theme.shadows[1],
   padding: '8px 12px',
 }));
-
-interface ToggleColorModeProps extends IconButtonProps {
-  mode: PaletteMode;
-  toggleColorMode: () => void;
-}
 
 function ToggleColorMode({
   mode,
@@ -62,17 +83,16 @@ function ToggleColorMode({
   );
 }
 
-interface ApplicationTopBarProps {
-  mode: PaletteMode;
-  toggleColorMode: () => void;
-}
+
+// 
+// Application Top Bar
+// 
 
 export default function ApplicationTopBar({
   mode,
   toggleColorMode,
 } : ApplicationTopBarProps ) {
   const [open, setOpen] = React.useState(false);
-
   const router = useRouter();
 
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -86,21 +106,16 @@ export default function ApplicationTopBar({
     >
       <Container maxWidth="lg">
         <StyledToolbar variant="dense" disableGutters>
+
+          {/* Desktop */}
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0, gap: 2, mx: 1 }}>
             <Logo />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Button variant="text" color="info" size="small" onClick={() => router.push('/alif/overview')}>
-                Overview
-              </Button>
-              <Button variant="text" color="info" size="small" onClick={() => router.push('/news')}>
-                News
-              </Button>
-              <Button variant="text" color="info" size="small" onClick={() => router.push('/team')}>
-                Team
-              </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }} onClick={() => router.push('/faqs')}>
-                FAQs
-              </Button>
+              {navigation.map(nav_link => (
+                <Button variant="text" color="info" size="small" onClick={() => router.push(nav_link.url)}>
+                  {nav_link.label}
+                </Button>
+              ))}
             </Box>
           </Box>
           <Box
@@ -111,10 +126,6 @@ export default function ApplicationTopBar({
               mx: 1,
             }}
           >
-            {/* <Button color="primary" variant="text" size="small" onClick={() => router.push('/contact')}>
-              Contact
-            </Button> */}
-
             <ToggleColorMode
                 data-screenshot="toggle-mode"
                 mode={mode}
@@ -124,6 +135,8 @@ export default function ApplicationTopBar({
               GitHub
             </Button>
           </Box>
+
+          {/* Mobile */}
           <Box sx={{ display: { sm: 'flex', md: 'none' } }}>
             <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
               <MenuIcon />
@@ -142,25 +155,28 @@ export default function ApplicationTopBar({
                   </IconButton>
                 </Box>
                 <Divider sx={{ my: 3 }} />
-                <MenuItem>Features</MenuItem>
-                <MenuItem>Testimonials</MenuItem>
-                <MenuItem>Highlights</MenuItem>
-                <MenuItem>Pricing</MenuItem>
-                <MenuItem>FAQ</MenuItem>
-                <MenuItem>Blog</MenuItem>
+                {navigation.map(nav_link => (
+                  <MenuItem onClick={() => router.push(nav_link.url)}>
+                    {nav_link.label}
+                  </MenuItem>
+                ))}
                 <MenuItem>
-                  <Button color="primary" variant="contained" fullWidth>
-                    Sign up
-                  </Button>
+                  <ToggleColorMode
+                    data-screenshot="toggle-mode"
+                    mode={mode}
+                    toggleColorMode={toggleColorMode}
+                    style={{ width: '100%' }}
+                  />
                 </MenuItem>
                 <MenuItem>
-                  <Button color="primary" variant="outlined" fullWidth>
-                    Sign in
+                  <Button color="primary" variant="contained" href="https://github.com/AI-FYP/Blog" startIcon={<GitHubIcon />} style={{ width: '100%' }}>
+                    GitHub
                   </Button>
                 </MenuItem>
               </Box>
             </Drawer>
           </Box>
+
         </StyledToolbar>
       </Container>
     </AppBar>

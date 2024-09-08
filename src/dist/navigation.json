@@ -1,0 +1,18 @@
+[
+    {
+        "label": "Overview",
+        "url": "/alif/overview"
+    },
+    {
+        "label": "News",
+        "url": "/news"
+    },
+    {
+        "label": "Team",
+        "url": "/team"
+    },
+    {
+        "label": "FAQs",
+        "url": "/faqs"
+    }
+]
