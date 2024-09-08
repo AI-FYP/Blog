@@ -43,14 +43,14 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
     localStorage.setItem('themeMode', newMode);
   };
 
-  const toggleCustomTheme = () => {
-    setShowCustomTheme((prev) => !prev);
-  };
+  // const toggleCustomTheme = () => {
+  //   setShowCustomTheme((prev) => !prev);
+  // };
 
   return (
     <ThemeProvider theme={showCustomTheme ? blogTheme : defaultTheme}>
       <CssBaseline enableColorScheme />
-      <ApplicationTopBar />
+      <ApplicationTopBar mode={mode} toggleColorMode={toggleColorMode} />
       <Container maxWidth="lg" component="main" sx={{ my: 10, gap: 4 }}>
         {children}
       </Container>

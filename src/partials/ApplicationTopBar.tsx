@@ -2,18 +2,21 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 
 import { alpha, styled } from '@mui/material/styles';
+import { PaletteMode } from '@mui/material/styles';
+import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
+import ModeNightRoundedIcon from '@mui/icons-material/ModeNightRounded';
 
 import GitHubIcon from '@mui/icons-material/GitHub';
 import Logo from '../components/Logo';
@@ -32,7 +35,42 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: '8px 12px',
 }));
 
-export default function ApplicationTopBar() {
+interface ToggleColorModeProps extends IconButtonProps {
+  mode: PaletteMode;
+  toggleColorMode: () => void;
+}
+
+function ToggleColorMode({
+  mode,
+  toggleColorMode,
+  ...props
+}: ToggleColorModeProps) {
+  return (
+    <IconButton
+      onClick={toggleColorMode}
+      color="primary"
+      size="small"
+      aria-label="Theme toggle button"
+      {...props}
+    >
+      {mode === 'dark' ? (
+        <WbSunnyRoundedIcon fontSize="small" />
+      ) : (
+        <ModeNightRoundedIcon fontSize="small" />
+      )}
+    </IconButton>
+  );
+}
+
+interface ApplicationTopBarProps {
+  mode: PaletteMode;
+  toggleColorMode: () => void;
+}
+
+export default function ApplicationTopBar({
+  mode,
+  toggleColorMode,
+} : ApplicationTopBarProps ) {
   const [open, setOpen] = React.useState(false);
 
   const router = useRouter();
@@ -73,9 +111,15 @@ export default function ApplicationTopBar() {
               mx: 1,
             }}
           >
-            <Button color="primary" variant="text" size="small" onClick={() => router.push('/contact')}>
+            {/* <Button color="primary" variant="text" size="small" onClick={() => router.push('/contact')}>
               Contact
-            </Button>
+            </Button> */}
+
+            <ToggleColorMode
+                data-screenshot="toggle-mode"
+                mode={mode}
+                toggleColorMode={toggleColorMode}
+              />
             <Button color="primary" variant="contained" size="small" href="https://github.com/AI-FYP/Blog" startIcon={<GitHubIcon />}>
               GitHub
             </Button>
