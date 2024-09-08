@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider, PaletteMode } from '@mui/material/styles';
@@ -12,7 +13,7 @@ interface PageLayoutProps {
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
 
-  React.useEffect(() => {
+  useEffect(() => {
     if(!document.title){
       document.title = `ALIF Blog`;
     }

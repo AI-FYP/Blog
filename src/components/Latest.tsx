@@ -14,7 +14,7 @@ import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
 
 import axios from 'axios';
 
-const TitleTypography = styled(Typography)(({ theme }) => ({
+const TitleTypography = styled(Typography)(() => ({
   position: 'relative',
   textDecoration: 'none',
   '&:hover': { cursor: 'pointer' },
@@ -122,7 +122,7 @@ export default function Latest({ searchQuery }: { searchQuery: string }) {
                         </Grid>
                     ))
                 ) : (
-                    <Typography>No posts found for "{searchQuery}".</Typography>
+                    <Typography>No posts found for &quote;{searchQuery}&quote;.</Typography>
                 )}
             </Grid>
             {totalPages > 1 && (

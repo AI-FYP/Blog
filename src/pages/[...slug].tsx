@@ -27,7 +27,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const path = (await import('path')).default;
 
   const slug = params?.slug ? (params.slug as string[]).join('/') : 'index';
-  const filePath = path.join(process.cwd(), 'md', `${slug}.md`);
+  const filePath = fs.existsSync( path.join(process.cwd(), 'md', `${slug}.md`) ) ? 
+    path.join(process.cwd(), 'md', `${slug}.md`) : 
+    path.join(process.cwd(), 'src/md', `${slug}.md`)
+  ;
+
   const fileContents = fs.readFileSync(filePath, 'utf8');
   
   const { content, data } = matter(fileContents);

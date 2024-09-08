@@ -3,14 +3,27 @@ import path from 'path';
 import matter from 'gray-matter';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+interface Post {
+  title?: string;
+  description?: string;
+  date?: string; // Make 'date' optional
+  tag?: string;
+  slug: string;
+  url: string;
+}
+
 const POSTS_PER_PAGE = 2;
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const postsDirectory = path.join(process.cwd(), 'md/post');
+  const postsDirectory = fs.existsSync( path.join(process.cwd(), 'md/post') ) ? 
+    path.join(process.cwd(), 'md/post') : 
+    path.join(process.cwd(), 'src/md/post')
+  ;
+
   const fileNames = fs.readdirSync(postsDirectory);
   
   // Read and parse all markdown files
-  const posts = fileNames.map((fileName) => {
+  const posts: Post[] = fileNames.map((fileName) => {
     const filePath = path.join(postsDirectory, fileName);
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const { data } = matter(fileContents);
@@ -25,7 +38,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   });
 
   // Sort posts by date (descending)
-  let sortedPosts = posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  let sortedPosts = posts.sort((a, b) => {
+    const dateA = a.date ? new Date(a.date).getTime() : 0;
+    const dateB = b.date ? new Date(b.date).getTime() : 0;
+    return dateB - dateA;  // Sort descending by date
+  });
 
   // Req Params
   const { page = 1, searchQuery = '' } = req.query;
@@ -35,7 +52,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const queryLower = searchQuery.toString().toLowerCase();
     sortedPosts = sortedPosts.filter(
       (post) =>
-        post.title.toLowerCase().includes(queryLower) ||
+        (post.title && post.title.toLowerCase().includes(queryLower)) ||
         (post.description && post.description.toLowerCase().includes(queryLower)) ||
         (post.tag && post.tag.toLowerCase().includes(queryLower))
     );

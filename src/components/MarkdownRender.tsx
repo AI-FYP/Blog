@@ -1,6 +1,7 @@
 import { Box, Dialog } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
 import { useState } from 'react';
+import Image from 'next/image';
 
 // const style = {
 //   position: 'absolute' as 'absolute',
@@ -31,10 +32,10 @@ const MarkdownRender: React.FC<CustomMarkdownProps> = ({ content }) => {
   const handleClose = () => setOpen(false);
 
   const renderers = {
-    img: ({ src, alt }: any) => (
-      <img
-        src={src}
-        alt={alt}
+    img: ({ src, alt }: {src?: string; alt?: string}) => (
+      <Image
+        src={src ?? ''}
+        alt={alt ?? ''}
         style={{
           display: 'block',
           margin: 'auto',
@@ -43,7 +44,7 @@ const MarkdownRender: React.FC<CustomMarkdownProps> = ({ content }) => {
           borderRadius: '8px',
           boxShadow: 3 as unknown as string
         }}
-        onClick={() => handleImageClick(src)}
+        onClick={src ? (() => handleImageClick(src)) : undefined}
       />
     ),
     p: (paragraph: any) => (
@@ -61,7 +62,7 @@ const MarkdownRender: React.FC<CustomMarkdownProps> = ({ content }) => {
       <ReactMarkdown components={renderers}>{content}</ReactMarkdown>
       <Dialog open={open} onClose={handleClose} maxWidth="md" sx={{ maxHeight: '100vh', overflow: 'auto' }}>
         <Box sx={{ width: '100%', height: 'auto' }}>
-          <img
+          <Image
             src={modalImage || ''}
             alt="Enlarged"
             style={{

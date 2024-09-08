@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Box from '@mui/material/Box';
@@ -69,7 +68,7 @@ const StyledTypography = styled(Typography)({
     textOverflow: 'ellipsis',
 });
 
-function AuthorAndDate({ authors, date }: { authors: { name: string; avatar: string }[], date: String }) {
+function AuthorAndDate({ authors, date }: { authors: { name: string; avatar: string }[], date: string }) {
     return (
         <Box
             sx={{
@@ -118,7 +117,7 @@ export function Search({ setSearchQuery }: { setSearchQuery?: (query: string) =>
 
 export default function MainContent({ data, searchQuery, setSearchQuery }: MainContentProps) {
 
-    const filteredPosts = data.posts.filter((post: any) =>
+    const filteredPosts = data.posts.filter((post) =>
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
