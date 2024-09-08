@@ -42,8 +42,12 @@ const MarkdownRender: React.FC<CustomMarkdownProps> = ({ content }) => {
           maxWidth: '100%',
           cursor: 'pointer',
           borderRadius: '8px',
+          width: '100%',
+          height: 'Auto',
           boxShadow: 3 as unknown as string
         }}
+        width={0}
+        height={0}
         onClick={src ? (() => handleImageClick(src)) : undefined}
       />
     ),
@@ -69,10 +73,13 @@ const MarkdownRender: React.FC<CustomMarkdownProps> = ({ content }) => {
               display: 'block',
               margin: 'auto',
               width: '100%',
+              height: 'auto',
               cursor: 'pointer',
               borderRadius: '8px',
               boxShadow: 3 as unknown as string
             }}
+            width={0}
+            height={0}
           />
         </Box>
       </Dialog>

@@ -11,6 +11,19 @@ interface PageLayoutProps {
   children: React.ReactNode;
 }
 
+// Helper to get cookie value
+const getCookie = (name: string): string | null => {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? decodeURIComponent(match[2]) : null;
+};
+
+// Helper to set a cookie
+const setCookie = (name: string, value: string, days: number) => {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${encodeURIComponent(value)};expires=${expires.toUTCString()};path=/`;
+};
+
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
 
   useEffect(() => {
@@ -19,7 +32,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
     }
   }, []);
 
-  const [mode, setMode] = React.useState<PaletteMode>('light');
+  const [mode, setMode] = React.useState<PaletteMode>('dark');
   const [showCustomTheme, setShowCustomTheme] = React.useState(true);
 
   const blogTheme = createTheme(getBlogTheme(mode));
@@ -30,10 +43,14 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
     if (savedMode) {
       setMode(savedMode);
     } else {
-      const systemPrefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-      ).matches;
-      setMode(systemPrefersDark ? 'dark' : 'light');
+      const savedModeFromCookie = getCookie('themeMode') as PaletteMode | null;
+      
+      if (savedModeFromCookie) {
+        setMode(savedModeFromCookie);
+      } else {
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setMode(systemPrefersDark ? 'dark' : 'light');
+      }
     }
   }, []);
 

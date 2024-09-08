@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
@@ -119,8 +119,6 @@ export function Search({ setSearchQuery }: { setSearchQuery?: (query: string) =>
 
 export default function MainContent({ data, searchQuery, setSearchQuery }: MainContentProps) {
 
-    const router = useRouter();
-
     const filteredPosts = data.posts.filter((post) =>
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       post.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -158,12 +156,13 @@ export default function MainContent({ data, searchQuery, setSearchQuery }: MainC
             >
                 <Box sx={{ display: 'inline-flex', flexDirection: 'row', gap: 3, overflow: 'auto' }}>
                     {data.tags.map((tag, index) => (
-                        <Chip
-                            key={index}
-                            onClick={() => router.push(tag.url)}
-                            size="medium"
-                            label={tag.name}
-                        />
+                        <Link href={tag.url} key={tag.url} passHref style={{ textDecoration: 'none', color: 'inherit'}}>
+                            <Chip
+                                key={index}
+                                size="medium"
+                                label={tag.name}
+                            />
+                        </Link>
                     ))}
                 </Box>
                 <Box
@@ -183,19 +182,20 @@ export default function MainContent({ data, searchQuery, setSearchQuery }: MainC
                 <Grid container spacing={2} columns={12}>
                     {filteredPosts.map((post, index) => (
                         <Grid key={index} size={{ xs: 12, md: 6 }}>
-                            <SyledCard
-                                variant="outlined"
-                                onClick={() => window.location.href = post.url} // Navigate to post's URL
-                                tabIndex={0}
-                            >
-                                <CardMedia component="img" alt={post.title} image={post.img} sx={{ borderBottom: '1px solid', borderColor: 'divider' }} />
-                                <SyledCardContent>
-                                    <Typography gutterBottom variant="caption">{post.tag}</Typography>
-                                    <Typography gutterBottom variant="h6">{post.title}</Typography>
-                                    <StyledTypography variant="body2" color="text.secondary" gutterBottom>{post.description}</StyledTypography>
-                                </SyledCardContent>
-                                <AuthorAndDate authors={post.authors} date={post.date} />
-                            </SyledCard>
+                            <Link href={post.url} passHref style={{ textDecoration: 'none', color: 'inherit'}}>
+                                <SyledCard
+                                    variant="outlined"
+                                    tabIndex={0}
+                                >
+                                    <CardMedia component="img" alt={post.title} image={post.img} sx={{ borderBottom: '1px solid', borderColor: 'divider' }} />
+                                    <SyledCardContent>
+                                        <Typography gutterBottom variant="caption">{post.tag}</Typography>
+                                        <Typography gutterBottom variant="h6">{post.title}</Typography>
+                                        <StyledTypography variant="body2" color="text.secondary" gutterBottom>{post.description}</StyledTypography>
+                                    </SyledCardContent>
+                                    <AuthorAndDate authors={post.authors} date={post.date} />
+                                </SyledCard>
+                            </Link>
                         </Grid>
                     ))}
                 </Grid>

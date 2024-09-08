@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
-import Link from '@mui/material/Link';
+import MuiLink from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Pagination from '@mui/material/Pagination';
@@ -60,7 +60,6 @@ interface Post {
 const POSTS_PER_PAGE = 2;
 
 export default function Latest({ searchQuery }: { searchQuery: string }) {
-    const router = useRouter();
     // const [posts, setPosts] = useState<Post[]>([]);
     const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
     const [totalPages, setTotalPages] = useState(1);
@@ -102,7 +101,7 @@ export default function Latest({ searchQuery }: { searchQuery: string }) {
                                     {post.tag}
                                 </Typography>
 
-                                <Link href="#" onClick={() => router.push(`/post/${post.url}`)}>
+                                <Link href={`/post/${post.url}`} passHref style={{ textDecoration: 'none', color: 'inherit'}}>
                                     <TitleTypography gutterBottom variant="h6" tabIndex={0}>
                                         {post.title}
                                         <NavigateNextRoundedIcon className="arrow" sx={{ fontSize: '1rem' }} />

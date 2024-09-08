@@ -1,14 +1,12 @@
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 interface LogoProps{
     link?: boolean,
 }
 
 const Logo = ({ link = true } : LogoProps ) => {
-    const router = useRouter();
-
     const logo = <h4>ALIF</h4>;
-    return link ? <a href="#" onClick={() => router.push('/')}>{logo}</a> : logo;
+    return link ? <Link href="/" >{logo}</Link> : logo;
 };
 
 export default Logo;

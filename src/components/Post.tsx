@@ -4,6 +4,7 @@ import { Box, Chip } from '@mui/material';
 
 import PageLayout from '../layouts/PageLayout';
 import MarkdownRender from './MarkdownRender';
+import Container from '@mui/material/Container';
 
 export interface PostProps {
   title: string;
@@ -18,7 +19,6 @@ const Post: React.FC<PostProps> = ({ title, content, tags }) => {
 
   return (
     <PageLayout>
-
       {/* Head */}
       <Head>
         <title>{`${title} | ALIF Blog`}</title>

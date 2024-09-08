@@ -3,7 +3,7 @@
 // 
 
 import * as React from 'react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import { alpha, styled } from '@mui/material/styles';
 import { PaletteMode } from '@mui/material/styles';
@@ -92,9 +92,8 @@ export default function ApplicationTopBar({
   mode,
   toggleColorMode,
 } : ApplicationTopBarProps ) {
-  const [open, setOpen] = React.useState(false);
-  const router = useRouter();
 
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -112,9 +111,11 @@ export default function ApplicationTopBar({
             <Logo />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               {navigation.map(nav_link => (
-                <Button variant="text" color="info" size="small" onClick={() => router.push(nav_link.url)}>
-                  {nav_link.label}
-                </Button>
+                <Link href={nav_link.url} passHref style={{ textDecoration: 'none', color: 'inherit'}}>
+                  <Button variant="text" color="info" size="small">
+                    {nav_link.label}
+                  </Button>
+                </Link>
               ))}
             </Box>
           </Box>
@@ -156,9 +157,9 @@ export default function ApplicationTopBar({
                 </Box>
                 <Divider sx={{ my: 3 }} />
                 {navigation.map(nav_link => (
-                  <MenuItem onClick={() => router.push(nav_link.url)}>
-                    {nav_link.label}
-                  </MenuItem>
+                  <Link href={nav_link.url} passHref style={{ textDecoration: 'none', color: 'inherit'}}>
+                    <MenuItem>{nav_link.label}</MenuItem>
+                  </Link>
                 ))}
                 <MenuItem>
                   <ToggleColorMode

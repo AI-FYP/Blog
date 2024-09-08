@@ -1,31 +1,58 @@
 import * as React from 'react';
+import Link from 'next/link';
+
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
+import MuiLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import Logo from '../components/Logo';
 
-import { useRouter } from 'next/router';
+
+// 
+// Types
+// 
+
+interface LinkInterface {
+  url: string;
+  label: string;
+};
+
+
+// 
+// Components
+// 
 
 function Copyright() {
   return (
     <Typography variant="body2" sx={{ color: 'text.secondary', mt: 1 }}>
       {'Copyright © '}
-      <Link color="text.secondary" href="https://github.com/AI-FYP">
+      <MuiLink color="text.secondary" href="https://github.com/AI-FYP">
         AI-FYP
-      </Link>
+      </MuiLink>
       &nbsp;
       {new Date().getFullYear()}
     </Typography>
   );
 }
 
+
+// 
+// Footer
+// 
+
 export default function Footer() {
-  const router = useRouter();
+
+  const gen_links = (links : LinkInterface[] ) => links.map(link_item => (
+    <Link href={link_item.url} key={link_item.url} passHref style={{ textDecoration: 'none', color: 'inherit'}}>
+      <Typography color="text.secondary" variant="body2">
+        {link_item.label}
+      </Typography>
+    </Link>
+  ));
 
   return (
     <React.Fragment>
@@ -73,21 +100,13 @@ export default function Footer() {
             <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               ALIF
             </Typography>
-            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/alif/overview')}>
-              Overview
-            </Link>
-            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/alif/features')}>
-              Features
-            </Link>
-            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/ailf/demo')}>
-              Demo
-            </Link>
-            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/alif/news')}>
-              News
-            </Link>
-            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/alif/faqs')}>
-              FAQs
-            </Link>
+            {gen_links([
+              {url: "/alif/overview", label: "Overview"},
+              {url: "/alif/features", label: "Features"},
+              {url: "/alif/demo", label: "Demo"},
+              {url: "/alif/news", label: "News"},
+              {url: "/alif/faqs", label: "FAQs"},
+            ])}
           </Box>
           <Box
             sx={{
@@ -99,12 +118,11 @@ export default function Footer() {
             <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               Company
             </Typography>
-            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/about')}>
-              About us
-            </Link>
-            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/team')}>
-              Team
-            </Link>
+
+            {gen_links([
+              {url: "/about", label: "About us"},
+              {url: "/team", label: "Team"},
+            ])}
           </Box>
           <Box
             sx={{
@@ -116,15 +134,11 @@ export default function Footer() {
             <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
               Legal
             </Typography>
-            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/terms')}>
-              Terms
-            </Link>
-            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/privacy-policy')}>
-              Privacy
-            </Link>
-            <Link color="text.secondary" variant="body2" href="#" onClick={() => router.push('/contact')}>
-              Contact
-            </Link>
+            {gen_links([
+              {url: "/terms", label: "Terms"},
+              {url: "/privacy-policy", label: "Privacy Policy"},
+              {url: "/contact", label: "Contact"},
+            ])}
           </Box>
         </Box>
         <Box
@@ -138,15 +152,10 @@ export default function Footer() {
           }}
         >
           <div>
-            <Link color="text.secondary" variant="body2" href="#">
-              Privacy Policy
-            </Link>
-            <Typography sx={{ display: 'inline', mx: 0.5, opacity: 0.5 }}>
-              &nbsp;•&nbsp;
-            </Typography>
-            <Link color="text.secondary" variant="body2" href="#">
-              Terms of Service
-            </Link>
+            {gen_links([
+              {url: "/privacy-policy", label: "Privacy Policy"},
+              {url: "/terms", label: "Terms of Service"},
+            ])}
             <Copyright />
           </div>
           <Stack
