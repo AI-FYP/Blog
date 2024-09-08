@@ -4,7 +4,7 @@
   },
   "scripts": {
     "build": "cd src && npm run build && cd ..",
-    "postbuild": "echo > ./out/.nojekyl",
+    "postbuild": "echo > ./out/.nojekyll",
     "deploy": "npm run build && gh-pages -d out --dotfiles"
   }
 }
