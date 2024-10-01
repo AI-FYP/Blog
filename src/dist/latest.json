@@ -1,5 +1,21 @@
 [
   {
+    "title": "Introduction to Alif",
+    "date": "2024-10-01",
+    "authors": [
+      {
+        "name": "Sadia Jahangir",
+        "avatar": "/assets/images/avatar/john-doe.jpg"
+      }
+    ],
+    "tags": [
+      "Introduction"
+    ],
+    "description": "A brief introduction to ALIF & Blog.",
+    "slug": "introduction-to-alif",
+    "url": "/introduction-to-alif"
+  },
+  {
     "title": "Welcome to ALIF",
     "date": "2024-09-10",
     "authors": [
