@@ -4,7 +4,6 @@ import { Box, Chip } from '@mui/material';
 
 import PageLayout from '../layouts/PageLayout';
 import MarkdownRender from './MarkdownRender';
-import Container from '@mui/material/Container';
 
 export interface PostProps {
   title: string;
